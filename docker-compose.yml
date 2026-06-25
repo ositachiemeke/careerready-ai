@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:16
+    restart: always
+
+    environment:
+      POSTGRES_DB: careerready
+      POSTGRES_USER: careerready
+      POSTGRES_PASSWORD: careerready
+
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+
+    ports:
+      - "6379:6379"
