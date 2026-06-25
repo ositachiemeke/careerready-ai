@@ -1,5 +1,7 @@
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 import {
   SwaggerModule,
@@ -38,6 +40,14 @@ async function bootstrap() {
       transform: true,
       forbidNonWhitelisted: true,
     }),
+  );
+
+  app.useGlobalFilters(
+    new GlobalExceptionFilter(),
+  );
+
+  app.useGlobalInterceptors(
+    new ResponseInterceptor(),
   );
 
   /*
