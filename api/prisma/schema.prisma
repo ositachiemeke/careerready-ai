@@ -37,12 +37,14 @@ model AssessmentType {
   id          String @id @default(uuid())
 
   code        String @unique
+
   name        String
   slug        String @unique
 
   description String?
 
   status      ContentStatus @default(DRAFT)
+
   sortOrder   Int @default(0)
 
   topics      Topic[]
@@ -51,35 +53,34 @@ model AssessmentType {
   updatedAt   DateTime @updatedAt
   deletedAt   DateTime?
 
-  @@index([code])
-
   @@map("assessment_types")
 }
 
 model Topic {
-  id               String @id @default(uuid())
+  id                String @id @default(uuid())
 
-  assessmentTypeId String
+  assessmentTypeId  String
 
-  code             String @unique
-  name             String
-  slug             String @unique
+  code              String @unique
 
-  description      String?
+  name              String
+  slug              String @unique
 
-  status           ContentStatus @default(DRAFT)
-  sortOrder        Int @default(0)
+  description       String?
 
-  assessmentType   AssessmentType @relation(fields: [assessmentTypeId], references: [id])
+  status            ContentStatus @default(DRAFT)
 
-  concepts         Concept[]
+  sortOrder         Int @default(0)
 
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  deletedAt        DateTime?
+  assessmentType    AssessmentType @relation(fields: [assessmentTypeId],references: [id])
+
+  concepts          Concept[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  deletedAt         DateTime?
 
   @@index([assessmentTypeId])
-  @@index([code])
 
   @@map("topics")
 }
