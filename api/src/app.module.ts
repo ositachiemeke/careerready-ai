@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CurriculumModule } from './curriculum/curriculum.module';
-import { PrismaModule } from './prisma/prisma.module';
+import { CurriculumModule } from './modules/curriculum/curriculum.module';
+import { PrismaModule } from './modules/prisma/prisma.module';
 
 @Module({
   imports: [CurriculumModule, PrismaModule],

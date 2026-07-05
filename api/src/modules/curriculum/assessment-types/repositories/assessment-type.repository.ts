@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from '../../../prisma/prisma.service';
 
-import { BaseRepository } from '../../../common/repositories/base.repository';
+import { BaseRepository } from '../../../../common/repositories/base.repository';
 
 import { CreateAssessmentTypeDto } from '../dto/create-assessment-type.dto';
 import { UpdateAssessmentTypeDto } from '../dto/update-assessment-type.dto';
