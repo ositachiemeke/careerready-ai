@@ -106,4 +106,12 @@ export class TopicRepository extends BaseRepository {
       }
     });
   }
+
+  async findByIdIncludingDeleted(id: string) {
+    return this.prisma.topic.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
 }

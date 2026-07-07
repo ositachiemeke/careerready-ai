@@ -3,11 +3,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CurriculumModule } from './modules/curriculum/curriculum.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
-
+import { TopicsModule } from './modules/curriculum/topics/topics.module';
+import { ConfigModule } from '@nestjs/config';
+import { AssessmentTypesModule } from './modules/curriculum/assessment-types/assessment-types.module';
 @Module({
-  imports: [CurriculumModule, PrismaModule],
-  controllers: [AppController],
-  providers: [AppService],
-  
+  imports: [
+    ConfigModule,
+    PrismaModule,
+    AssessmentTypesModule,
+    TopicsModule,
+  ],
 })
 export class AppModule {}

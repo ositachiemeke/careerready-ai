@@ -11,11 +11,10 @@ import {
   import { AssessmentTypesService } from '../services/assessment-types.service';
   import { CreateAssessmentTypeDto } from '../dto/create-assessment-type.dto';
   import { UpdateAssessmentTypeDto } from '../dto/update-assessment-type.dto';
+import { ApiTags } from '@nestjs/swagger';
   
-  @Controller({
-    path: 'assessment-types',
-    version: '1',
-  })
+  @ApiTags('Assessment Types')
+  @Controller('curriculum/assessment-types')
   export class AssessmentTypesController {
     constructor(
       private readonly assessmentTypesService: AssessmentTypesService,

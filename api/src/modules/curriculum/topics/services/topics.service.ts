@@ -160,17 +160,16 @@ import {
   
     async restore(id: string) {
       const topic =
-        await this.topicRepository.findById(id);
-  
+        await this.topicRepository.findByIdIncludingDeleted(id);
+
       if (!topic) {
-        throw new NotFoundException(
-          'Topic not found.',
-        );
+        throw new NotFoundException('Topic not found');
       }
-  
-      const restored =
-        await this.topicRepository.restore(id);
-  
-      return TopicMapper.toResponse(restored);
+
+      if (!topic.deletedAt) {
+        throw new ConflictException('Topic is already active');
+      }
+
+      return this.topicRepository.restore(id);
     }
   }
