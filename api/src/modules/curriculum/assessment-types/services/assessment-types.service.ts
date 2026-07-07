@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+
 import { AssessmentTypeRepository } from '../repositories/assessment-type.repository';
+
 import { CreateAssessmentTypeDto } from '../dto/create-assessment-type.dto';
 import { UpdateAssessmentTypeDto } from '../dto/update-assessment-type.dto';
 
@@ -9,26 +11,30 @@ export class AssessmentTypesService {
     private readonly repository: AssessmentTypeRepository,
   ) {}
 
-  create(dto: CreateAssessmentTypeDto) {
+  async create(dto: CreateAssessmentTypeDto) {
     return this.repository.create(dto);
   }
 
-  findAll() {
-    return this.repository.findAll();
+  async findAll() {
+    return this.repository.findMany();
   }
 
-  findOne(id: string) {
-    return this.repository.findOne(id);
+  async findOne(id: string) {
+    return this.repository.findById(id);
   }
 
-  update(
+  async update(
     id: string,
     dto: UpdateAssessmentTypeDto,
   ) {
     return this.repository.update(id, dto);
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     return this.repository.softDelete(id);
+  }
+
+  async restore(id: string) {
+    return this.repository.restore(id);
   }
 }

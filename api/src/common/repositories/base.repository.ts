@@ -1,27 +1,37 @@
 export abstract class BaseRepository {
-    protected activeRecordFilter() {
-      return {
-        deletedAt: null,
-      };
-    }
-  
-    protected deletedRecordFilter() {
-      return {
-        deletedAt: {
-          not: null,
-        },
-      };
-    }
-  
-    protected softDeletePayload() {
-      return {
-        deletedAt: new Date(),
-      };
-    }
-  
-    protected restorePayload() {
-      return {
-        deletedAt: null,
-      };
-    }
+  protected activeRecordFilter(): {
+    deletedAt: null;
+  } {
+    return {
+      deletedAt: null,
+    };
   }
+
+  protected deletedRecordFilter(): {
+    deletedAt: {
+      not: null;
+    };
+  } {
+    return {
+      deletedAt: {
+        not: null,
+      },
+    };
+  }
+
+  protected softDeletePayload(): {
+    deletedAt: Date;
+  } {
+    return {
+      deletedAt: new Date(),
+    };
+  }
+
+  protected restorePayload(): {
+    deletedAt: null;
+  } {
+    return {
+      deletedAt: null,
+    };
+  }
+}

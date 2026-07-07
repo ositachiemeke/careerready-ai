@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
 import { PrismaService } from '../../../prisma/prisma.service';
-
 import { BaseRepository } from '../../../../common/repositories/base.repository';
-
-import { CreateAssessmentTypeDto } from '../dto/create-assessment-type.dto';
-import { UpdateAssessmentTypeDto } from '../dto/update-assessment-type.dto';
 
 @Injectable()
 export class AssessmentTypeRepository extends BaseRepository {
@@ -15,23 +12,24 @@ export class AssessmentTypeRepository extends BaseRepository {
     super();
   }
 
-  create(data: CreateAssessmentTypeDto) {
+  async create(
+    data: Prisma.AssessmentTypeCreateInput,
+  ) {
     return this.prisma.assessmentType.create({
       data,
     });
   }
 
-  findAll() {
+  async findMany() {
     return this.prisma.assessmentType.findMany({
       where: this.activeRecordFilter(),
-
       orderBy: {
         sortOrder: 'asc',
       },
     });
   }
 
-  findOne(id: string) {
+  async findById(id: string) {
     return this.prisma.assessmentType.findFirst({
       where: {
         id,
@@ -40,9 +38,27 @@ export class AssessmentTypeRepository extends BaseRepository {
     });
   }
 
-  update(
+  async findByCode(code: string) {
+    return this.prisma.assessmentType.findFirst({
+      where: {
+        code,
+        ...this.activeRecordFilter(),
+      },
+    });
+  }
+
+  async findBySlug(slug: string) {
+    return this.prisma.assessmentType.findFirst({
+      where: {
+        slug,
+        ...this.activeRecordFilter(),
+      },
+    });
+  }
+
+  async update(
     id: string,
-    data: UpdateAssessmentTypeDto,
+    data: Prisma.AssessmentTypeUpdateInput,
   ) {
     return this.prisma.assessmentType.update({
       where: {
@@ -52,12 +68,21 @@ export class AssessmentTypeRepository extends BaseRepository {
     });
   }
 
-  softDelete(id: string) {
+  async softDelete(id: string) {
     return this.prisma.assessmentType.update({
       where: {
         id,
       },
       data: this.softDeletePayload(),
+    });
+  }
+
+  async restore(id: string) {
+    return this.prisma.assessmentType.update({
+      where: {
+        id,
+      },
+      data: this.restorePayload(),
     });
   }
 }

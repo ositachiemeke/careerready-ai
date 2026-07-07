@@ -12,7 +12,7 @@ import {
   import { ApiPropertyOptional } from '@nestjs/swagger';
   import { ContentStatus } from '@prisma/client';
   
-  import { SortOrder } from '../../../common/enums/sort-order.enum';
+  import { SortOrder } from '../../../../common/enums/sort-order.enum';
   
   export class ListTopicsDto {
     @ApiPropertyOptional({
