@@ -1,0 +1,147 @@
+{
+    "info": {
+      "name": "CareerReady AI API",
+      "_postman_id": "ca56e55e-04fd-4d8d-bdb2-74dd88f0d001",
+      "description": "CareerReady AI Backend API",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "{{baseUrl}}"
+      }
+    ],
+    "item": [
+      {
+        "name": "Curriculum",
+        "item": [
+          {
+            "name": "Topics",
+            "item": [
+              {
+                "name": "Create Topic",
+                "request": {
+                  "method": "POST",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "url": {
+                    "raw": "{{baseUrl}}/curriculum/topics",
+                    "host": [
+                      "{{baseUrl}}"
+                    ],
+                    "path": [
+                      "curriculum",
+                      "topics"
+                    ]
+                  },
+                  "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"assessmentTypeId\": \"\",\n  \"code\": \"JS\",\n  \"name\": \"JavaScript\",\n  \"slug\": \"javascript\",\n  \"description\": \"JavaScript interview preparation\",\n  \"sortOrder\": 1,\n  \"status\": \"DRAFT\"\n}"
+                  }
+                }
+              },
+              {
+                "name": "Get Topics",
+                "request": {
+                  "method": "GET",
+                  "url": {
+                    "raw": "{{baseUrl}}/curriculum/topics",
+                    "host": [
+                      "{{baseUrl}}"
+                    ],
+                    "path": [
+                      "curriculum",
+                      "topics"
+                    ]
+                  }
+                }
+              },
+              {
+                "name": "Get Topic",
+                "request": {
+                  "method": "GET",
+                  "url": {
+                    "raw": "{{baseUrl}}/curriculum/topics/:id",
+                    "host": [
+                      "{{baseUrl}}"
+                    ],
+                    "path": [
+                      "curriculum",
+                      "topics",
+                      ":id"
+                    ]
+                  }
+                }
+              },
+              {
+                "name": "Update Topic",
+                "request": {
+                  "method": "PATCH",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "url": {
+                    "raw": "{{baseUrl}}/curriculum/topics/:id",
+                    "host": [
+                      "{{baseUrl}}"
+                    ],
+                    "path": [
+                      "curriculum",
+                      "topics",
+                      ":id"
+                    ]
+                  },
+                  "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"name\": \"Advanced JavaScript\"\n}"
+                  }
+                }
+              },
+              {
+                "name": "Delete Topic",
+                "request": {
+                  "method": "DELETE",
+                  "url": {
+                    "raw": "{{baseUrl}}/curriculum/topics/:id",
+                    "host": [
+                      "{{baseUrl}}"
+                    ],
+                    "path": [
+                      "curriculum",
+                      "topics",
+                      ":id"
+                    ]
+                  }
+                }
+              },
+              {
+                "name": "Restore Topic",
+                "request": {
+                  "method": "PATCH",
+                  "url": {
+                    "raw": "{{baseUrl}}/curriculum/topics/:id/restore",
+                    "host": [
+                      "{{baseUrl}}"
+                    ],
+                    "path": [
+                      "curriculum",
+                      "topics",
+                      ":id",
+                      "restore"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
