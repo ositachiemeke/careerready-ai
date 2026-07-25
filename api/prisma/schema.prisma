@@ -15,6 +15,12 @@ enum ContentStatus {
   ARCHIVED
 }
 
+enum DifficultyLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
 enum RelationshipType {
   PREREQUISITE
   RELATED
@@ -86,32 +92,37 @@ model Topic {
 }
 
 model Concept {
-  id          String @id @default(uuid())
+  id                 String @id @default(uuid())
 
-  topicId     String
+  topicId            String
 
-  code        String @unique
-  name        String
-  slug        String @unique
+  code               String @unique
+  name               String
+  slug               String @unique
 
-  description String?
+  description        String?
 
-  status      ContentStatus @default(DRAFT)
-  sortOrder   Int @default(0)
+  status             ContentStatus   @default(DRAFT)
+  difficulty         DifficultyLevel @default(BEGINNER)
+  estimatedMinutes   Int?
 
-  topic       Topic @relation(fields: [topicId], references: [id])
+  sortOrder          Int @default(0)
 
-  frameworks  Framework[]
+  topic              Topic @relation(fields: [topicId], references: [id])
+
+  frameworks         Framework[]
 
   parentRelationships ConceptRelationship[] @relation("ParentConcept")
   childRelationships  ConceptRelationship[] @relation("ChildConcept")
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  deletedAt   DateTime?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  deletedAt          DateTime?
 
   @@index([topicId])
   @@index([code])
+  @@index([status])
+  @@index([difficulty])
 
   @@map("concepts")
 }
