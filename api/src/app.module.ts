@@ -11,9 +11,7 @@ import { ConceptsModule } from './modules/curriculum/concepts/concepts.module';
   imports: [
     ConfigModule,
     PrismaModule,
-    AssessmentTypesModule,
-    TopicsModule,
-    ConceptsModule
+    CurriculumModule
   ],
 })
 export class AppModule {}

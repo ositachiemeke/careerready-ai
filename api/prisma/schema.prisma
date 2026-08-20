@@ -28,163 +28,209 @@ enum RelationshipType {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
+  id       String @id @default(uuid())
+  email    String @unique
+  password String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
   @@map("users")
 }
 
 model AssessmentType {
-  id          String @id @default(uuid())
+  id String @id @default(uuid())
 
-  code        String @unique
+  code String @unique
 
-  name        String
-  slug        String @unique
+  name String
+  slug String @unique
 
   description String?
 
-  status      ContentStatus @default(DRAFT)
+  status ContentStatus @default(DRAFT)
 
-  sortOrder   Int @default(0)
+  sortOrder Int @default(0)
 
-  topics      Topic[]
+  topics Topic[]
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  deletedAt   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   @@map("assessment_types")
 }
 
 model Topic {
-  id                String @id @default(uuid())
+  id String @id @default(uuid())
 
-  assessmentTypeId  String
+  assessmentTypeId String
 
-  code              String @unique
+  code String @unique
 
-  name              String
-  slug              String @unique
+  name String
+  slug String @unique
 
-  description       String?
+  description String?
 
-  status            ContentStatus @default(DRAFT)
+  status ContentStatus @default(DRAFT)
 
-  sortOrder         Int @default(0)
+  sortOrder Int @default(0)
 
-  assessmentType    AssessmentType @relation(fields: [assessmentTypeId],references: [id])
+  assessmentType AssessmentType @relation(fields: [assessmentTypeId], references: [id])
 
-  concepts          Concept[]
+  concepts Concept[]
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  deletedAt         DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   @@index([assessmentTypeId])
-
   @@map("topics")
 }
 
 model Concept {
-  id                 String @id @default(uuid())
+  id String @id @default(uuid())
 
-  topicId            String
+  topicId String
 
-  code               String @unique
-  name               String
-  slug               String @unique
+  code String @unique
+  name String
+  slug String @unique
 
-  description        String?
+  description String?
 
-  status             ContentStatus   @default(DRAFT)
-  difficulty         DifficultyLevel @default(BEGINNER)
-  estimatedMinutes   Int?
+  status           ContentStatus   @default(DRAFT)
+  difficulty       DifficultyLevel @default(BEGINNER)
+  estimatedMinutes Int?
 
-  sortOrder          Int @default(0)
+  sortOrder Int @default(0)
 
-  topic              Topic @relation(fields: [topicId], references: [id])
+  topic Topic @relation(fields: [topicId], references: [id])
 
-  frameworks         Framework[]
+  frameworks Framework[]
 
   parentRelationships ConceptRelationship[] @relation("ParentConcept")
   childRelationships  ConceptRelationship[] @relation("ChildConcept")
 
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  deletedAt          DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   @@index([topicId])
   @@index([code])
   @@index([status])
   @@index([difficulty])
-
   @@map("concepts")
 }
 
 model Framework {
-  id          String @id @default(uuid())
+  id String @id @default(uuid())
 
-  conceptId   String
+  conceptId String
 
-  name        String
+  code String @unique
+  name String
+  slug String @unique
+
   description String?
 
-  status      ContentStatus @default(DRAFT)
-  sortOrder   Int @default(0)
+  /// Educational Metadata
 
-  concept     Concept @relation(fields: [conceptId], references: [id])
+  /// Helps learners (and AI) recognize when this framework should be applied.
+  recognitionPattern String? @db.Text
 
-  steps       FrameworkStep[]
+  /// Defines what mastery of this framework should achieve.
+  learningObjective String? @db.Text
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  deletedAt   DateTime?
+  /// High-level strategy used to solve questions in this framework.
+  strategySummary String? @db.Text
+
+  /// Common mistakes candidates make when using this framework.
+  commonMistakes String? @db.Text
+
+  /// Progressive hint used before revealing the solution.
+  hint String? @db.Text
+
+  /// Indicates whether this framework is considered essential.
+  isCore Boolean @default(false)
+
+  status ContentStatus @default(DRAFT)
+
+  sortOrder Int @default(0)
+
+  /// Relationships
+
+  concept Concept @relation(fields: [conceptId], references: [id])
+
+  frameworkSteps FrameworkStep[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   @@index([conceptId])
-
+  @@index([code])
+  @@index([slug])
+  @@index([status])
   @@map("frameworks")
 }
 
 model FrameworkStep {
-  id          String @id @default(uuid())
+  id String @id @default(uuid())
 
   frameworkId String
 
-  stepNumber  Int
-  title       String
+  /// Execution order within a framework
+  stepNumber Int
+
+  /// Short step title
+  title String
+
+  /// Brief description of the step
   description String
 
-  framework   Framework @relation(fields: [frameworkId], references: [id])
+  /// Detailed explanation used in lessons and AI coaching
+  explanation String? @db.Text
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  /// Progressive hint revealed before the explanation
+  hint String? @db.Text
+
+  /// Common learner mistake associated with this step
+  commonMistake String? @db.Text
+
+  /// What the learner should have achieved after this step
+  expectedOutcome String? @db.Text
+
+  status ContentStatus @default(DRAFT)
+
+  framework Framework @relation(fields: [frameworkId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   @@unique([frameworkId, stepNumber])
-
+  @@index([frameworkId])
+  @@index([status])
   @@map("framework_steps")
 }
 
 model ConceptRelationship {
-  id               String @id @default(uuid())
+  id String @id @default(uuid())
 
-  parentConceptId  String
-  childConceptId   String
+  parentConceptId String
+  childConceptId  String
 
   relationshipType RelationshipType
 
-  parentConcept    Concept @relation("ParentConcept", fields: [parentConceptId], references: [id])
-  childConcept     Concept @relation("ChildConcept", fields: [childConceptId], references: [id])
+  parentConcept Concept @relation("ParentConcept", fields: [parentConceptId], references: [id])
+  childConcept  Concept @relation("ChildConcept", fields: [childConceptId], references: [id])
 
-  createdAt        DateTime @default(now())
+  createdAt DateTime @default(now())
 
   @@index([parentConceptId])
   @@index([childConceptId])
-
   @@map("concept_relationships")
 }
